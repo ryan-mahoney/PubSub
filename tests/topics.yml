@@ -1,3 +1,8 @@
 topics:
-    formContactSave: ['config', 'db']
-    formSubscribeSave: ['handlebars', 'db']
+    formContactSave: 
+        dbsave: ['db', 'request']
+        searchindex: ['index', 'document']
+    formSubscriberSave: 
+        dbsave: ['db', 'request']
+        searchindex: ['index', 'document', ]
+        mailchimp: ['mailchimp', 'request']

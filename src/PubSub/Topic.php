@@ -23,15 +23,16 @@ class Topic {
 			throw new \Exception('Can not parse YAML file: ' . $topicConfig);
 		}
 		if (isset($config['topics']) && is_array($config['topics'])) {
-			foreach ($config['topics'] as $callback => $services) {
-				$this->topics[$topic][] = [$callback => $services];
+			foreach ($config['topics'] as $topic => $listeners) {
+				foreach ($listeners as $listener => $services) {
+					$this->topics[$topic][$listener] = $services;
+				}
 			}
 		}
 		$listersBuild = $root . '/subscribers/_build.php';
 		if (file_exists($listersBuild)) {
 			$this->listeners = require $listersBuild;
 		}
-		$this->show();
 	}
 	
 	public function show () {
@@ -46,19 +47,20 @@ class Topic {
 		$this->topics[$topic][] = [$callback => $services];
 	}
 
-	public function publish ($topic, $args=[]) {
-		if (!isset($this->topics[$topic])) {
+	public function publish ($topic) {
+		if (!isset($this->topics[$topic]) || !is_array($this->topics[$topic]) || empty($this->topics[$topic])) {
 			return;
 		}
-		foreach ($this->topics[$topic] as $callback => $arguments) {
-			if (!isset($this->listeners[$callback])) {
-				continue;
+
+		foreach ($this->topics[$topic] as $listener => $dependencies) {
+			if (!isset($this->listeners[$listener])) {
+				throw new \Exception('Listener not defined or built for topic: ' . $topic);
 			}
-			$args = [];
-			foreach ($arguments as $argument) {
-				$args[] = $this->container->{$argument};
+			$services = [];
+			foreach ($dependencies as $dependency) {
+				$services[] = $this->container->{$dependency};
 			}
-			$response = call_user_func_array($this->listeners[$callback], $args);
+			$response = call_user_func_array($this->listeners[$listener], $services);
 			if ($response === false) {
 				break;
 			}
