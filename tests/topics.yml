@@ -1,0 +1,3 @@
+topics:
+    formContactSave: ['config', 'db']
+    formSubscribeSave: ['handlebars', 'db']
