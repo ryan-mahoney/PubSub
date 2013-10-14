@@ -1,4 +1,4 @@
 <?php
-return function ($mailchimp, $request) {
+return function ($event, $mailchimp, $request) {
 	//save using mailchimp api
 };

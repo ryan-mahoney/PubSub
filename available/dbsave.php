@@ -1,4 +1,4 @@
 <?php
-return function ($db, $request) {
+return function ($event, $db, $request) {
 	//save in database
 };
