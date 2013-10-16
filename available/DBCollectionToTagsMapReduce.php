@@ -1,6 +1,5 @@
 <?php
-return function ($db) {
-	//call map-reduce to generate tags
+return function ($event, $db) {
 	$map = <<<MAP
 		function() {
 			if (!this.tags) {
@@ -23,7 +22,7 @@ MAP;
 REDUCE;
 		
 	return $db->mapReduce($map, $reduce, [
-		'mapreduce' => 'blogs',
-		'out' => 'blogsTags'
+		'mapreduce' => $event['collection'],
+		'out' => $event['collection'] . 'Tags'
 	]);
 };
