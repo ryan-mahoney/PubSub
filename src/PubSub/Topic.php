@@ -11,7 +11,7 @@ class Topic {
 	}
 
 	public function load ($root) {
-		$topicConfig = $root . '/subscribers/topics.yml';
+		$topicConfig = $root . '/../subscribers/topics.yml';
 		if (!file_exists($topicConfig)) {
 			return;
 		}
@@ -29,7 +29,7 @@ class Topic {
 				}
 			}
 		}
-		$listersBuild = $root . '/subscribers/_build.php';
+		$listersBuild = $root . '/../subscribers/_build.php';
 		if (file_exists($listersBuild)) {
 			$this->subscribers = require $listersBuild;
 		}
