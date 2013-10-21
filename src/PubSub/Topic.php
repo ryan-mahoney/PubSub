@@ -5,9 +5,11 @@ class Topic {
 	private $topics = [];
 	private $subscribers = [];
 	private $container;
+	private $yamlSlow;
 
-	public function __construct ($container) {
+	public function __construct ($container, $yamlSlow) {
 		$this->container = $container;
+		$this->yamlSlow = $yamlSlow;
 	}
 
 	public function load ($root) {
@@ -18,7 +20,11 @@ class Topic {
 		if (!function_exists('yaml_parse')) {
 			throw new \Exception('PHP must be compiled with YAML PECL extension');
 		}
-		$config = yaml_parse_file($topicConfig);
+		if (function_exists('yaml_parse_file')) {
+			$config = yaml_parse_file($topicConfig);
+		} else {
+			$config = $this->yamlSlow->parse($topicConfig);
+		}
 		if ($config == false) {
 			throw new \Exception('Can not parse YAML file: ' . $topicConfig);
 		}
