@@ -5,6 +5,7 @@ class PubSubBuild {
 	public function build ($root) {
 		$cache = [];
 		$listersCache = $root . '/../subscribers/_build.php';
+		unlink($listersCache);
 		$files = glob($root . '/../subscribers/*.php');
 		if (count($files) == 0) {
 			file_put_contents($listersCache, '<?php' . "\n" . 'return [];');
