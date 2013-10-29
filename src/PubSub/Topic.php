@@ -5,31 +5,22 @@ class Topic {
 	private $topics = [];
 	private $subscribers = [];
 	private $container;
-	private $yamlSlow;
+	private $cache = false;
 
-	public function __construct ($container, $yamlSlow) {
+	public function __construct ($container) {
 		$this->container = $container;
-		$this->yamlSlow = $yamlSlow;
+	}
+
+	public function cacheSet ($cache) {
+		$this->cache = (array)$cache;
 	}
 
 	public function load ($root) {
-		$topicConfig = $root . '/../subscribers/topics.yml';
-		if (!file_exists($topicConfig)) {
+		if ($this->cache === false || !is_array($this->cache) || !isset($this->cache['topics']) || !is_array($this->cache['topics']) || count($this->cache['topics']) == 0) {
 			return;
 		}
-		if (!function_exists('yaml_parse')) {
-			throw new \Exception('PHP must be compiled with YAML PECL extension');
-		}
-		if (function_exists('yaml_parse_file')) {
-			$config = yaml_parse_file($topicConfig);
-		} else {
-			$config = $this->yamlSlow->parse($topicConfig);
-		}
-		if ($config == false) {
-			throw new \Exception('Can not parse YAML file: ' . $topicConfig);
-		}
-		if (isset($config['topics']) && is_array($config['topics'])) {
-			foreach ($config['topics'] as $topic => $subscribers) {
+		if (isset($this->cache['topics']) && is_array($this->cache['topics'])) {
+			foreach ($this->cache['topics'] as $topic => $subscribers) {
 				foreach ($subscribers as $subscriber => $services) {
 					$this->topics[$topic][$subscriber] = $services;
 				}
@@ -53,8 +44,8 @@ class Topic {
 		$this->topics[$topic][] = [$callback => $services];
 	}
 
-	public function publish ($topic, $event=[]) {
-		$event = new \ArrayObject((array)$event);
+	public function publish ($topic, array $context=[]) {
+		$context = new \ArrayObject((array)$context);
 		if (!isset($this->topics[$topic]) || !is_array($this->topics[$topic]) || empty($this->topics[$topic])) {
 			return;
 		}
@@ -63,7 +54,7 @@ class Topic {
 				throw new \Exception('Listener not defined or built for topic: ' . $topic);
 			}
 			$services = [];
-			$services[] = $event;
+			$services[] = $context;
 			foreach ($dependencies as $dependency) {
 				$services[] = $this->container->{$dependency};
 			}
