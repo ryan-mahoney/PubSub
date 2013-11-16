@@ -88,9 +88,9 @@ class PubSubBuild {
 		echo exec('php -l ' . $listersCache);
 		$buffer = ob_get_clean();
 		if (substr_count($buffer, 'No syntax errors detected in') == 1) {
-			echo 'Good: Topic build file is passing PHP error check.', "\n\n";
+			echo 'Good: Topic build file is passing PHP error check.', "\n";
 		} else {
-			echo 'Problem: Topic build file is not passing PHP error check.', "\n\n";
+			echo 'Problem: Topic build file is not passing PHP error check.', "\n";
 		}
 	}
 
