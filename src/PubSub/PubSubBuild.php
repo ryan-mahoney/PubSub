@@ -70,7 +70,6 @@ class PubSubBuild {
 		$files = glob($this->root . '/../subscribers/*.php');
 		if (count($files) == 0) {
 			file_put_contents($listersCache, '<?php' . "\n" . 'return [];');
-			return;
 		}
 		$cache = '<?php' . "\n" . 'return [' . "\n";
 		foreach ($files as $subscriber) {
