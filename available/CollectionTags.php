@@ -1,5 +1,5 @@
 <?php
-return function ($event, $db) {
+return function ($context, $db) {
 	$map = <<<MAP
 		function() {
 			if (!this.tags) {
@@ -22,7 +22,7 @@ MAP;
 REDUCE;
 		
 	return $db->mapReduce($map, $reduce, [
-		'mapreduce' => $event['collection'],
-		'out' => $event['collection'] . 'Tags'
+		'mapreduce' => $context['collection'],
+		'out' => $context['collection'] . '_tags'
 	]);
 };

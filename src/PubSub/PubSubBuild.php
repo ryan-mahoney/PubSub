@@ -16,10 +16,21 @@ class PubSubBuild {
 	}
 
 	public function topics () {
-		$topicConfig = $this->root . '/../subscribers/topics.yml';
-		$config = $this->topicsRead($topicConfig);
+		$config = [];
+		$this->topicsInclude($this->root . '/../vendor/virtuecenter/pubsub/available/topics.yml', $config);
 		$this->bundleTopicsInclude($config);
+		$this->topicsInclude($this->root . '/../subscribers/topics.yml', $config);
 		return $config;
+	}
+
+	public function topicsInclude ($file, &$config) {
+		$topics = $this->topicsRead($file);
+		if (!isset($topics['topics']) || !is_array($topics['topics']) || count($topics['topics']) == 0) {
+			return;
+		}
+		foreach ($topics['topics'] as $name => $topic) {
+			$config['topics'][$name] = $topic;
+		}
 	}
 
 	public function bundleTopicsInclude (&$config) {
@@ -36,13 +47,7 @@ class PubSubBuild {
 			if (!file_exists($bundleTopics)) {
 				continue;
 			}
-			$bundleConfig = $this->topicsRead($bundleTopics);
-			if (!isset($bundleConfig['topics']) || !is_array($bundleConfig['topics']) || count($bundleConfig['topics']) == 0) {
-				continue;
-			}
-			foreach ($bundleConfig['topics'] as $name => $topic) {
-				$config['topics'][$name] = $topic;
-			}
+			$this->topicsInclude($bundleTopics, $config);
 		}
 	}
 
@@ -80,6 +85,7 @@ class PubSubBuild {
 			$cache .= $this->subcriberRead($name, $subscriber);
 		}
 		$this->bundleSubscribersInclude($cache);
+		$this->standardSubscribersInclude($cache);
 		$cache = substr($cache, 0, -3);
 		$cache .= "\n" . '];';
 		file_put_contents($listersCache, $cache);
@@ -118,6 +124,24 @@ class PubSubBuild {
 				}
 				$cache .= $this->subcriberRead($name, $subscriber);
 			}
+		}
+	}
+
+	private function standardSubscribersInclude (&$cache) {
+		$subscribers = $this->root . '/../vendor/virtuecenter/pubsub/available';
+		if (!file_exists($subscribers)) {
+			return;
+		}
+		$files = glob($subscribers . '/*.php');
+		if (!is_array($files) || count($files) == 0) {
+			return;
+		}
+		foreach ($files as $subscriber) {
+			$name = basename($subscriber, '.php');
+			if ($name == '_build') {
+				return;
+			}
+			$cache .= $this->subcriberRead($name, $subscriber);
 		}
 	}
 

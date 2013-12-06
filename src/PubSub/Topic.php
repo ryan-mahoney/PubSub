@@ -33,8 +33,14 @@ class Topic {
 	}
 	
 	public function show () {
-		print_r($this->topics);
-		print_r($this->subscribers);
+		echo 'TOPICS: ', "\n";
+		foreach ($this->topics as $key => $value) {
+			echo $key, "\n";
+		}
+		echo 'SUBSCRIBERS:', "\n";
+		foreach ($this->subscribers as $key => $value) {
+			echo $key, "\n";
+		}
 	}
 
 	public function subscribe ($topic, $callback, $services=[]) {
