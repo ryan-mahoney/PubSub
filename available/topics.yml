@@ -1,5 +1,7 @@
 topics:
     CollectionTags: 
        CollectionTags: ['db']
+    BlurbsByTag:
+       BlurbsByTag: ['db']
     TweetsFetch:
        TweetsFetch: ['twitter']
