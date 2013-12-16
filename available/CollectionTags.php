@@ -20,9 +20,15 @@ MAP;
 			return count;
 		}
 REDUCE;
-		
-	return $db->mapReduce($map, $reduce, [
-		'mapreduce' => $context['collection'],
-		'out' => $context['collection'] . '_tags'
-	]);
+	
+	try {
+		$result = $db->mapReduce($map, $reduce, [
+			'mapreduce' => $context['collection'],
+			'out' => $context['collection'] . '_tags'
+		]);
+	} catch (\Exception $e) {
+		$result = false;
+	}
+
+	return $result;
 };
