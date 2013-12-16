@@ -6,4 +6,4 @@ topics:
     TweetsFetch:
         TweetsFetch: ['twitter']
     CollectionStats:
-        CollectionStats: ['db']
+        CollectionStats: ['collection']
