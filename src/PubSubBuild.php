@@ -2,7 +2,7 @@
 /**
  * Opine\PubSubBuild
  *
- * Copyright (c)2013 Ryan Mahoney, https://github.com/virtuecenter <ryan@virtuecenter.com>
+ * Copyright (c)2013, 2014 Ryan Mahoney, https://github.com/Opine-Org <ryan@virtuecenter.com>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -40,7 +40,7 @@ class PubSubBuild {
 
     public function topics () {
         $config = [];
-        $this->topicsInclude($this->root . '/../vendor/virtuecenter/pubsub/available/topics.yml', $config);
+        $this->topicsInclude($this->root . '/../vendor/opine/pubsub/available/topics.yml', $config);
         $this->bundleTopicsInclude($config);
         $this->topicsInclude($this->root . '/../subscribers/topics.yml', $config);
         return $config;
@@ -151,7 +151,7 @@ class PubSubBuild {
     }
 
     private function standardSubscribersInclude (&$cache) {
-        $subscribers = $this->root . '/../vendor/virtuecenter/pubsub/available';
+        $subscribers = $this->root . '/../vendor/opine/pubsub/available';
         if (!file_exists($subscribers)) {
             return;
         }
