@@ -1,14 +1,14 @@
 {
-    "name": "virtuecenter/pubsub",
+    "name": "opine/pubsub",
     "type": "library",
-    "description": "Library for handling pubsub pattern with dependecy injection",
+    "description": "Service for handling pubsub pattern with dependecy injection",
     "keywords": ["pubsub", "events", "dependecy injection"],
     "license": "MIT",
     "authors": [
         {
             "name": "Ryan Mahoney",
             "email": "ryan@virtuecenter.com",
-            "homepage": "http://www.virtuecenter.com",
+            "homepage": "http://opine-php.org",
             "role": "Developer"
         }
     ],
@@ -17,6 +17,6 @@
         "symfony/yaml": "2.4.*@dev"
     },
     "autoload": {
-        "psr-0": {"PubSub": "src/"}
+        "psr-4": {"Opine\\": "src/"}
     }
 }
