@@ -65,8 +65,8 @@ class PubSubBuild {
         if (!is_array($bundles) || count($bundles) == 0) {
             return;
         }
-        foreach ($bundles as $bundle) {
-            $bundleTopics = $this->root . '/../bundles/' . $bundle . '/subscribers/topics.yml';
+        foreach ($bundles as $bundleName => $bundle) {
+            $bundleTopics = $this->root . '/../bundles/' . $bundleName . '/subscribers/topics.yml';
             if (!file_exists($bundleTopics)) {
                 continue;
             }
@@ -131,8 +131,8 @@ class PubSubBuild {
         if (!is_array($bundles) || count($bundles) == 0) {
             return;
         }
-        foreach ($bundles as $bundle) {
-            $bundleSubscribers = $this->root . '/../bundles/' . $bundle . '/subscribers';
+        foreach ($bundles as $bundleName => $bundle) {
+            $bundleSubscribers = $this->root . '/../bundles/' . $bundleName . '/subscribers';
             if (!file_exists($bundleSubscribers)) {
                 continue;
             }
