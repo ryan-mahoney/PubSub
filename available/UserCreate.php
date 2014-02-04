@@ -15,9 +15,9 @@ return function ($context, $post, $person) {
         return;
     }
     $found = $person->findByEmail($document['email']);
-    if ($found === false) {
+    if ($found !== false) {
         $post->errorFieldSet($context['formMarker'], 'An Account already exists for this address.');
-        return;    
+        return;
     }
     $created = $person->create($document);
     if ($created !== true) {
