@@ -49,9 +49,9 @@ class Topic {
                 }
             }
         }
-        $listersBuild = $root . '/../subscribers/_build.php';
-        if (file_exists($listersBuild)) {
-            $this->subscribers = require $listersBuild;
+        $subscribersBuild = $root . '/../subscribers/_build.php';
+        if (file_exists($subscribersBuild)) {
+            $this->subscribers = require $subscribersBuild;
         }
     }
     
