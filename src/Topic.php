@@ -44,6 +44,9 @@ class Topic {
         }
         if (isset($this->cache['topics']) && is_array($this->cache['topics'])) {
             foreach ($this->cache['topics'] as $topic => $subscribers) {
+                if (!is_array($subscribers)) {
+                    continue;
+                }
                 foreach ($subscribers as $subscriber => $services) {
                     $this->topics[$topic][$subscriber] = $services;
                 }
