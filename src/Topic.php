@@ -73,7 +73,11 @@ class Topic {
         if (!isset($this->topics[$topic])) {
             $this->topics[$topic] = [];
         }
-        $this->topics[$topic][] = [$callback => $services];
+        $this->topics[$topic][$callback] = $services;
+    }
+
+    public function subscriber ($name, $callback) {
+        $this->subscribers[$name] = $callback;
     }
 
     public function publish ($topic, array $context=[]) {
