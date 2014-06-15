@@ -29,6 +29,7 @@ class Topic {
     private $subscribers = [];
     private $container;
     private $cache = false;
+    private $this->root;
 
     public function __construct ($container) {
         $this->container = $container;
@@ -38,7 +39,7 @@ class Topic {
         $this->cache = (array)$cache;
     }
 
-    public function load ($root) {
+    public function load () {
         if ($this->cache === false || !is_array($this->cache) || !isset($this->cache['topics']) || !is_array($this->cache['topics']) || count($this->cache['topics']) == 0) {
             return;
         }
@@ -52,7 +53,7 @@ class Topic {
                 }
             }
         }
-        $subscribersBuild = $root . '/../subscribers/_build.php';
+        $subscribersBuild = $this->root . '/../subscribers/_build.php';
         if (file_exists($subscribersBuild)) {
             $this->subscribers = require $subscribersBuild;
         }
