@@ -29,7 +29,7 @@ class Topic {
     private $subscribers = [];
     private $container;
     private $cache = false;
-    private $this->root;
+    private $root;
 
     public function __construct ($container) {
         $this->container = $container;
