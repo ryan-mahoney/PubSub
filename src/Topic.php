@@ -26,46 +26,21 @@ namespace Opine;
 
 class Topic {
     private $topics = [];
-    private $subscribers = [];
     private $container;
-    private $cache = false;
-    private $root;
 
     public function __construct ($container) {
         $this->container = $container;
     }
 
     public function cacheSet ($cache) {
-        $this->cache = (array)$cache;
-    }
-
-    public function load () {
-        if ($this->cache === false || !is_array($this->cache) || !isset($this->cache['topics']) || !is_array($this->cache['topics']) || count($this->cache['topics']) == 0) {
+        if ($cache === false || !is_array($cache) || !isset($cache['topics']) || !is_array($cache['topics'])) {
             return;
         }
-        if (isset($this->cache['topics']) && is_array($this->cache['topics'])) {
-            foreach ($this->cache['topics'] as $topic => $subscribers) {
-                if (!is_array($subscribers)) {
-                    continue;
-                }
-                foreach ($subscribers as $subscriber => $services) {
-                    $this->topics[$topic][$subscriber] = $services;
-                }
-            }
-        }
-        $subscribersBuild = $this->root . '/../subscribers/_build.php';
-        if (file_exists($subscribersBuild)) {
-            $this->subscribers = require $subscribersBuild;
-        }
+        $this->topics = (array)$cache['topics'];
     }
-    
+
     public function show () {
-        echo 'TOPICS: ', "\n";
         foreach ($this->topics as $key => $value) {
-            echo $key, "\n";
-        }
-        echo 'SUBSCRIBERS:', "\n";
-        foreach ($this->subscribers as $key => $value) {
             echo $key, "\n";
         }
     }
@@ -77,25 +52,22 @@ class Topic {
         $this->topics[$topic][$callback] = $services;
     }
 
-    public function subscriber ($name, $callback) {
-        $this->subscribers[$name] = $callback;
-    }
-
     public function publish ($topic, array $context=[]) {
         $context = new \ArrayObject((array)$context);
         if (!isset($this->topics[$topic]) || !is_array($this->topics[$topic]) || empty($this->topics[$topic])) {
             return;
         }
-        foreach ($this->topics[$topic] as $subscriber => $dependencies) {
-            if (!isset($this->subscribers[$subscriber])) {
-                throw new \Exception('Listener not defined or built for topic: ' . $topic);
+        foreach ($this->topics[$topic] as $subscriber) {
+            if (!is_string($subscriber)) {
+                continue;
             }
-            $services = [];
-            $services[] = $context;
-            foreach ($dependencies as $dependency) {
-                $services[] = $this->container->{$dependency};
+            if (substr_count($subscriber, '@') != 1) {
+                continue;
             }
-            $response = call_user_func_array($this->subscribers[$subscriber], $services);
+            $service = explode('@', $subscriber)[0];
+            $method = explode('@', $subscriber)[1];
+            $service = $this->container->{$service};
+            $response = $service->$method($context);
             if ($response === false) {
                 break;
             }

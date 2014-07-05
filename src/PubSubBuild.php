@@ -34,13 +34,13 @@ class PubSubBuild {
     }
 
     public function build () {
-        $this->subscribers();
+        //$this->subscribers();
         return $this->topics();
     }
 
     public function topics () {
         $config = [];
-        $this->topicsInclude($this->root . '/../vendor/opine/pubsub/available/topics.yml', $config);
+        $this->topicsInclude(__DIR__ . '/../available/topics.yml', $config);
         $this->bundleTopicsInclude($config);
         $this->topicsInclude($this->root . '/../subscribers/topics.yml', $config);
         return $config;
