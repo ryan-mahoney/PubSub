@@ -27,10 +27,12 @@ namespace Opine;
 class PubSubBuild {
     private $root;
     private $yamlSlow;
+    private $bundleRoute;
 
-    public function __construct ($root, $yamlSlow) {
+    public function __construct ($root, $yamlSlow, $bundleRoute) {
         $this->root = $root;
         $this->yamlSlow = $yamlSlow;
+        $this->bundleRoute = $bundleRoute;
     }
 
     public function build () {
@@ -42,7 +44,7 @@ class PubSubBuild {
         $config = [];
         $this->topicsInclude(__DIR__ . '/../available/topics.yml', $config);
         $this->bundleTopicsInclude($config);
-        $this->topicsInclude($this->root . '/../subscribers/topics.yml', $config);
+        $this->topicsInclude($this->root . '/../topics.yml', $config);
         return $config;
     }
 
@@ -57,16 +59,12 @@ class PubSubBuild {
     }
 
     public function bundleTopicsInclude (&$config) {
-        $bundleCache = $this->root . '/../bundles/cache.json';
-        if (!file_exists($bundleCache)) {
-            return;
-        }
-        $bundles = (array)json_decode(file_get_contents($bundleCache), true);
+        $bundles = $this->bundleRoute->cacheRead();
         if (!is_array($bundles) || count($bundles) == 0) {
             return;
         }
         foreach ($bundles as $bundleName => $bundle) {
-            $bundleTopics = $this->root . '/../bundles/' . $bundleName . '/subscribers/topics.yml';
+            $bundleTopics = $this->root . '/../bundles/' . $bundleName . '/topics.yml';
             if (!file_exists($bundleTopics)) {
                 continue;
             }
