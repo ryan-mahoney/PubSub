@@ -23,6 +23,8 @@
  * THE SOFTWARE.
  */
 namespace Opine;
+use ArrayObject;
+use Exception;
 
 class Topic {
     private $topics = [];
@@ -45,15 +47,18 @@ class Topic {
         }
     }
 
-    public function subscribe ($topic, $callback, $services=[]) {
+    public function subscribe ($topic, $callback) {
+        if (!is_string($callback) || substr_count($callback, '@') != 1) {
+            throw new Exception('Callback must be a string expressed in the format: service@method');
+        }
         if (!isset($this->topics[$topic])) {
             $this->topics[$topic] = [];
         }
-        $this->topics[$topic][$callback] = $services;
+        $this->topics[$topic][] = $callback;
     }
 
     public function publish ($topic, array $context=[]) {
-        $context = new \ArrayObject((array)$context);
+        $context = new ArrayObject((array)$context);
         if (!isset($this->topics[$topic]) || !is_array($this->topics[$topic]) || empty($this->topics[$topic])) {
             return;
         }
