@@ -22,18 +22,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-namespace Opine;
+namespace Opine\PubSub;
 use Exception;
 
-class PubSubBuild {
+class Model {
     private $root;
     private $yamlSlow;
-    private $bundleRoute;
+    private $bundleModel;
 
-    public function __construct ($root, $yamlSlow, $bundleRoute) {
+    public function __construct ($root, $yamlSlow, $bundleModel) {
         $this->root = $root;
         $this->yamlSlow = $yamlSlow;
-        $this->bundleRoute = $bundleRoute;
+        $this->bundleModel = $bundleModel;
     }
 
     public function build () {
@@ -59,7 +59,7 @@ class PubSubBuild {
     }
 
     public function bundleTopicsInclude (&$config) {
-        $bundles = $this->bundleRoute->cacheRead();
+        $bundles = $this->bundleModel->cacheRead();
         if (!is_array($bundles) || count($bundles) == 0) {
             return;
         }

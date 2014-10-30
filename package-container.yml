@@ -1,0 +1,7 @@
+services:
+    pubSubModel:
+        class:     'Opine\PubSub\Model'
+        arguments: ['%root%', '@yamlSlow', '@bundleModel']
+    topic:
+        class:     'Opine\PubSub\Topic'
+        arguments: ['@container']
