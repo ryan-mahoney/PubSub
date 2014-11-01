@@ -29,13 +29,16 @@ use Exception;
 class Topic {
     private $topics = [];
     private $container;
+    private $model;
 
     public function __construct ($container) {
         $this->container = $container;
+        $this->model = $container->pubSubModel;
     }
 
     public function cacheSet ($cache) {
         if ($cache === false || !is_array($cache) || !isset($cache['topics']) || !is_array($cache['topics'])) {
+            $this->topics = $this->model->readDiskCache();
             return;
         }
         $this->topics = (array)$cache['topics'];
@@ -44,6 +47,10 @@ class Topic {
     public function show () {
         foreach ($this->topics as $key => $value) {
             echo $key, "\n";
+            foreach ($value as $call) {
+                echo ' - ', $call, "\n";
+            }
+            echo "\n";
         }
     }
 

@@ -1,9 +1,9 @@
 topics:
     CollectionTags: 
-        CollectionTags: ['db']
+        - collectionController@tagsCollection
     BlurbsByTag:
-        BlurbsByTag: ['db']
+        - blurbsController@cache
     TweetsFetch:
-        TweetsFetch: ['twitter']
-    CollectionStats:
-        CollectionStats: ['collection']
+        - twitterController@fetch
+    CollectionStats: 
+        - collectionController@stats

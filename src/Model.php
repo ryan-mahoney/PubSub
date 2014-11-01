@@ -34,10 +34,25 @@ class Model {
         $this->root = $root;
         $this->yamlSlow = $yamlSlow;
         $this->bundleModel = $bundleModel;
+        $this->cacheFile = $this->root . '/../cache/topics.json';
+    }
+
+    public function readDiskCache () {
+        $topics = [];
+        if (!file_exists($this->cacheFile)) {
+            return [];
+        }
+        $topics = json_decode(file_get_contents($this->cacheFile), true);
+        if (!isset($topics['topics'])) {
+            return [];
+        }
+        return $topics['topics'];
     }
 
     public function build () {
-        return $this->topics();
+        $topics = $this->topics();
+        file_put_contents($this->cacheFile, json_encode($topics, JSON_PRETTY_PRINT));
+        return $topics;
     }
 
     public function topics () {
