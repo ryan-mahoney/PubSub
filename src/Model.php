@@ -24,15 +24,14 @@
  */
 namespace Opine\PubSub;
 use Exception;
+use Symfony\Component\Yaml\Yaml;
 
 class Model {
     private $root;
-    private $yamlSlow;
     private $bundleModel;
 
-    public function __construct ($root, $yamlSlow, $bundleModel) {
+    public function __construct ($root, $bundleModel) {
         $this->root = $root;
-        $this->yamlSlow = $yamlSlow;
         $this->bundleModel = $bundleModel;
         $this->cacheFile = $this->root . '/../cache/topics.json';
     }
@@ -94,7 +93,7 @@ class Model {
         if (function_exists('yaml_parse_file')) {
             $config = yaml_parse_file($topicConfig);
         } else {
-            $config = $this->yamlSlow->parse($topicConfig);
+            $config = Yaml::parse(file_get_contents($topicConfig));
         }
         if ($config == false) {
             throw new Exception('Can not parse YAML file: ' . $topicConfig);
