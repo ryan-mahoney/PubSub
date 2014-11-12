@@ -78,7 +78,7 @@ class Model {
             return;
         }
         foreach ($bundles as $bundleName => $bundle) {
-            $bundleTopics = $this->root . '/../bundles/' . $bundleName . '/topics.yml';
+            $bundleTopics = $bundle['root'] . '/../topics.yml';
             if (!file_exists($bundleTopics)) {
                 continue;
             }
