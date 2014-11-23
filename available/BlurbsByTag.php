@@ -11,7 +11,7 @@ return function ($context, $db) {
             }
         }
 MAP;
-        
+
     $reduce = <<<REDUCE
         function(key, values) {
             var count = 0;

@@ -10,10 +10,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -54,7 +54,7 @@ class Model {
         return $topics;
     }
 
-    public function topics () {
+    private function topics () {
         $config = [];
         $this->topicsInclude(__DIR__ . '/../available/topics.yml', $config);
         $this->bundleTopicsInclude($config);
@@ -62,7 +62,7 @@ class Model {
         return $config;
     }
 
-    public function topicsInclude ($file, &$config) {
+    private function topicsInclude ($file, &$config) {
         $topics = $this->topicsRead($file);
         if (!isset($topics['topics']) || !is_array($topics['topics']) || count($topics['topics']) == 0) {
             return;
@@ -72,7 +72,7 @@ class Model {
         }
     }
 
-    public function bundleTopicsInclude (&$config) {
+    private function bundleTopicsInclude (&$config) {
         $bundles = $this->bundleModel->cacheRead();
         if (!is_array($bundles) || count($bundles) == 0) {
             return;

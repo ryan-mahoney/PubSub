@@ -10,7 +10,7 @@ return function ($context, $post, $db) {
     if ($document === false || empty($document)) {
         throw new \Exception('Document not found in post');
     }
-    $documentObject = $db->documentStage($context['dbURI'], $document);
+    $documentObject = $db->document($context['dbURI'], $document);
     $documentObject->upsert();
     $post->statusSaved();
 };

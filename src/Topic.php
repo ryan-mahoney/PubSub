@@ -10,10 +10,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,15 +25,17 @@
 namespace Opine\PubSub;
 use ArrayObject;
 use Exception;
+use Opine\Interfaces\Topic as TopicInterface;
+use Opine\Interfaces\Container as ContainerInterface;
 
-class Topic {
+class Topic implements TopicInterface {
     private $topics = [];
     private $container;
     private $model;
 
-    public function __construct ($container) {
+    public function __construct (ContainerInterface $container) {
         $this->container = $container;
-        $this->model = $container->pubSubModel;
+        $this->model = $container->get('pubSubModel');
     }
 
     public function cacheSet ($cache) {
@@ -78,7 +80,7 @@ class Topic {
             }
             $service = explode('@', $subscriber)[0];
             $method = explode('@', $subscriber)[1];
-            $service = $this->container->{$service};
+            $service = $this->container->get($service);
             $response = $service->$method($context);
             if ($response === false) {
                 break;

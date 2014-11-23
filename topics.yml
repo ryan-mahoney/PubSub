@@ -1,0 +1,3 @@
+topics:
+    Test:
+        - pubsubTest@someMethod

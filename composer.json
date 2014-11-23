@@ -1,5 +1,5 @@
 {
-    "name": "opine\/pubsub",
+    "name": "opine/pubsub",
     "type": "library",
     "description": "Service for handling pubsub pattern with dependecy injection",
     "keywords": [
@@ -8,21 +8,28 @@
         "dependecy injection"
     ],
     "license": "MIT",
+    "minimum-stability": "dev",
     "authors": [
         {
             "name": "Ryan Mahoney",
             "email": "ryan@virtuecenter.com",
-            "homepage": "http:\/\/opine-php.org",
+            "homepage": "http://opine-php.org",
             "role": "Developer"
         }
     ],
     "require": {
-        "php": ">=5.4.0",
-        "symfony\/yaml": "2.4.*@dev"
+        "php": ">=5.5.0",
+        "symfony/yaml": "2.4.*@dev",
+        "opine/interfaces": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.32",
+        "opine/config": "dev-master",
+        "opine/container": "dev-master"
     },
     "autoload": {
         "psr-4": {
-            "Opine\\PubSub\\": "src\/"
+            "Opine\\PubSub\\": "src/"
         }
     }
 }
