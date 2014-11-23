@@ -30,7 +30,7 @@ class PubSubTest extends PHPUnit_Framework_TestCase {
 
     public function testSubscribe () {
         $this->topic->subscribe('Test', 'pubsubTest@someMethod2');
-        $context = [];
+        $context = ['www' => 123];
         $this->topic->publish('Test', $context);
         $this->assertTrue('qrs' === $context['test3']);
     }
