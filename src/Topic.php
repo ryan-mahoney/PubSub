@@ -46,6 +46,9 @@ class Topic implements TopicInterface {
         $this->topics = (array)$cache['topics'];
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function show () {
         foreach ($this->topics as $key => $value) {
             echo $key, "\n";
@@ -66,7 +69,7 @@ class Topic implements TopicInterface {
         $this->topics[$topic][] = $callback;
     }
 
-    public function publish ($topic, array $context=[]) {
+    public function publish ($topic, Array &$context=[]) {
         $context = new ArrayObject((array)$context);
         if (!isset($this->topics[$topic]) || !is_array($this->topics[$topic]) || empty($this->topics[$topic])) {
             return;

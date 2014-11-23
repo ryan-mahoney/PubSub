@@ -19,9 +19,19 @@ class PubSubTest extends PHPUnit_Framework_TestCase {
         $model = $this->container->get('pubSubModel');
         $model->build();
         $this->topic = $this->container->get('topic');
+        $this->topic->cacheSet($model->readDiskCache());
     }
 
     public function testTopic () {
-        $this->topic->publish('Test');
+        $context = ['abc' => 123];
+        $this->topic->publish('Test', $context);
+        $this->assertTrue('def' === $context['test2']);
+    }
+
+    public function testSubscribe () {
+        $this->topic->subscribe('Test', 'pubsubTest@someMethod2');
+        $context = [];
+        $this->topic->publish('Test', $context);
+        $this->assertTrue('qrs' === $context['test3']);
     }
 }

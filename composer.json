@@ -20,7 +20,8 @@
     "require": {
         "php": ">=5.5.0",
         "symfony/yaml": "2.4.*@dev",
-        "opine/interfaces": "dev-master"
+        "opine/interfaces": "dev-master",
+        "opine/bundle": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.32",
