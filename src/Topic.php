@@ -69,8 +69,7 @@ class Topic implements TopicInterface {
         $this->topics[$topic][] = $callback;
     }
 
-    public function publish ($topic, Array &$context=[]) {
-        $context = new ArrayObject((array)$context);
+    public function publish ($topic, ArrayObject $context) {
         if (!isset($this->topics[$topic]) || !is_array($this->topics[$topic]) || empty($this->topics[$topic])) {
             return;
         }
