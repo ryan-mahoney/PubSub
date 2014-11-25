@@ -1,0 +1,8 @@
+imports:
+    - package-container.yml
+    - vendor/opine/container/config/package-container.yml
+    - vendor/opine/bundle/config/package-container.yml
+
+services:
+    pubsubTest:
+        class: 'Test\SomeClass'

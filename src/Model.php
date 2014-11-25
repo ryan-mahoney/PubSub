@@ -33,7 +33,7 @@ class Model {
     public function __construct ($root, $bundleModel) {
         $this->root = $root;
         $this->bundleModel = $bundleModel;
-        $this->cacheFile = $this->root . '/../cache/topics.json';
+        $this->cacheFile = $this->root . '/../var/cache/topics.json';
     }
 
     public function readDiskCache () {
@@ -58,7 +58,7 @@ class Model {
         $config = [];
         $this->topicsInclude(__DIR__ . '/../available/topics.yml', $config);
         $this->bundleTopicsInclude($config);
-        $this->topicsInclude($this->root . '/../topics.yml', $config);
+        $this->topicsInclude($this->root . '/../config/topics.yml', $config);
         return $config;
     }
 
@@ -78,7 +78,7 @@ class Model {
             return;
         }
         foreach ($bundles as $bundleName => $bundle) {
-            $bundleTopics = $bundle['root'] . '/../topics.yml';
+            $bundleTopics = $bundle['root'] . '/../config/topics.yml';
             if (!file_exists($bundleTopics)) {
                 continue;
             }
