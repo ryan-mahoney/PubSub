@@ -1,7 +1,7 @@
 imports:
-    - config/package-container.yml
-    - vendor/opine/container/config/package-container.yml
-    - vendor/opine/bundle/config/package-container.yml
+    - package-container.yml
+    - ../../container/config/package-container.yml
+    - ../../bundle/config/package-container.yml
 
 services:
     pubsubTest:
