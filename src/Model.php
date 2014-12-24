@@ -73,7 +73,7 @@ class Model {
     }
 
     private function bundleTopicsInclude (&$config) {
-        $bundles = $this->bundleModel->cacheRead();
+        $bundles = $this->bundleModel->bundles();
         if (!is_array($bundles) || count($bundles) == 0) {
             return;
         }
