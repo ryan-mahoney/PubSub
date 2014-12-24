@@ -6,30 +6,34 @@ use Opine\Container\Service as Container;
 use Opine\Config\Service as Config;
 use ArrayObject;
 
-require __DIR__ . '/SomeClass.php';
+require __DIR__.'/SomeClass.php';
 
-class PubSubTest extends PHPUnit_Framework_TestCase {
+class PubSubTest extends PHPUnit_Framework_TestCase
+{
     private $container;
     private $topic;
 
-    public function setup () {
-        $root = __DIR__ . '/../public';
+    public function setup()
+    {
+        $root = __DIR__.'/../public';
         $config = new Config($root);
         $config->cacheSet();
-        $this->container = Container::instance($root, $config, $root . '/../config/containers/test-container.yml');
+        $this->container = Container::instance($root, $config, $root.'/../config/containers/test-container.yml');
         $model = $this->container->get('pubSubModel');
         $model->build();
         $this->topic = $this->container->get('topic');
         $this->topic->cacheSet($model->readDiskCache());
     }
 
-    public function testTopic () {
+    public function testTopic()
+    {
         $context = ['abc' => 123];
         $this->topic->publish('Test', new ArrayObject($context));
         $this->assertTrue('def' === $context['test2']);
     }
 
-    public function testSubscribe () {
+    public function testSubscribe()
+    {
         $this->topic->subscribe('Test', 'pubsubTest@someMethod2');
         $context = ['www' => 123];
         $this->topic->publish('Test', new ArrayObject($context));

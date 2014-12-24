@@ -23,33 +23,39 @@
  * THE SOFTWARE.
  */
 namespace Opine\PubSub;
+
 use ArrayObject;
 use Exception;
 use Opine\Interfaces\Topic as TopicInterface;
 use Opine\Interfaces\Container as ContainerInterface;
 
-class Topic implements TopicInterface {
+class Topic implements TopicInterface
+{
     private $topics = [];
     private $container;
     private $model;
 
-    public function __construct (ContainerInterface $container) {
+    public function __construct(ContainerInterface $container)
+    {
         $this->container = $container;
         $this->model = $container->get('pubSubModel');
     }
 
-    public function cacheSet ($cache) {
+    public function cacheSet($cache)
+    {
         if ($cache === false || !is_array($cache) || !isset($cache['topics']) || !is_array($cache['topics'])) {
             $this->topics = $this->model->readDiskCache();
+
             return;
         }
-        $this->topics = (array)$cache['topics'];
+        $this->topics = (array) $cache['topics'];
     }
 
     /**
      * @codeCoverageIgnore
      */
-    public function show () {
+    public function show()
+    {
         foreach ($this->topics as $key => $value) {
             echo $key, "\n";
             foreach ($value as $call) {
@@ -59,7 +65,8 @@ class Topic implements TopicInterface {
         }
     }
 
-    public function subscribe ($topic, $callback) {
+    public function subscribe($topic, $callback)
+    {
         if (!is_string($callback) || substr_count($callback, '@') != 1) {
             throw new Exception('Callback must be a string expressed in the format: service@method');
         }
@@ -69,7 +76,8 @@ class Topic implements TopicInterface {
         $this->topics[$topic][] = $callback;
     }
 
-    public function publish ($topic, ArrayObject $context) {
+    public function publish($topic, ArrayObject $context)
+    {
         if (!isset($this->topics[$topic]) || !is_array($this->topics[$topic]) || empty($this->topics[$topic])) {
             return;
         }

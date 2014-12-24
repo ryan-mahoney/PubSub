@@ -12,11 +12,13 @@ return function ($context, $post, $authentication) {
     }
     if (!isset($document['route'])) {
         $post->errorFieldSet($context['formMarker'], 'Missing url.');
+
         return;
     }
     $try = $authentication->login($document['email'], $document['password']);
     if ($try === false) {
         $post->errorFieldSet($context['formMarker'], 'Credentials do not match. Please check your email or password and try again.');
+
         return;
     }
     $post->statusSaved();

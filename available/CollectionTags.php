@@ -10,7 +10,7 @@ return function ($context, $db) {
             }
         }
 MAP;
-        
+
     $reduce = <<<REDUCE
         function(key, values) {
             var count = 0;
@@ -20,11 +20,11 @@ MAP;
             return count;
         }
 REDUCE;
-    
+
     try {
         $result = $db->mapReduce($map, $reduce, [
             'mapreduce' => $context['collection'],
-            'out' => $context['collection'] . '_tags'
+            'out' => $context['collection'].'_tags'
         ]);
     } catch (\Exception $e) {
         $result = false;

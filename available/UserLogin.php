@@ -12,10 +12,12 @@ return function ($context, $post, $authentication) {
     }
     if (!isset($document['email']) || empty($document['email'])) {
         $post->errorFieldSet($context['formMarker'], 'Email missing');
+
         return;
     }
     if (!isset($document['password']) || empty($document['password'])) {
         $post->errorFieldSet($context['formMarker'], 'Password missing');
+
         return;
     }
     $found = $authentication->login($document['email'], $document['password']);
@@ -24,6 +26,7 @@ return function ($context, $post, $authentication) {
         if (filter_var($document['email'], FILTER_VALIDATE_EMAIL) === false) {
             $post->errorFieldSet($context['formMarker'], 'Bad email address?');
         }
+
         return;
     }
     $post->statusSaved();

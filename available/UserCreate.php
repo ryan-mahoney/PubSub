@@ -12,17 +12,20 @@ return function ($context, $post, $person) {
     }
     if (!isset($document['email'])) {
         $post->errorFieldSet($context['formMarker'], 'Email missing');
+
         return;
     }
     $found = $person->findByEmail($document['email']);
     if ($found !== false) {
         $post->errorFieldSet($context['formMarker'], 'An Account already exists for this address.');
+
         return;
     }
     $created = $person->create($document);
     if ($created !== true) {
         $post->errorFieldSet($context['formMarker'], $created);
-        return;    
+
+        return;
     }
     $person->groupJoin('registered');
     $person->activityAdd('register', 'Created and account.');
