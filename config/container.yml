@@ -1,8 +1,0 @@
-imports:
-    - package-container.yml
-    - ../../container/config/package-container.yml
-    - ../../bundle/config/package-container.yml
-
-services:
-    pubsubTest:
-        class: 'Test\SomeClass'

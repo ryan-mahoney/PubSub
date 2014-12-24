@@ -16,7 +16,7 @@ class PubSubTest extends PHPUnit_Framework_TestCase {
         $root = __DIR__ . '/../public';
         $config = new Config($root);
         $config->cacheSet();
-        $this->container = Container::instance($root, $config, $root . '/../config/container.yml');
+        $this->container = Container::instance($root, $config, $root . '/../config/containers/test-container.yml');
         $model = $this->container->get('pubSubModel');
         $model->build();
         $this->topic = $this->container->get('topic');

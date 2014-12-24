@@ -58,7 +58,9 @@ class Model {
         $config = [];
         $this->topicsInclude(__DIR__ . '/../available/topics.yml', $config);
         $this->bundleTopicsInclude($config);
-        $this->topicsInclude($this->root . '/../config/topics.yml', $config);
+        foreach (glob($this->root . '/../config/topics/*.yml') as $filename) {
+            $this->topicsInclude($filename, $config);
+        }
         return $config;
     }
 
@@ -78,11 +80,9 @@ class Model {
             return;
         }
         foreach ($bundles as $bundleName => $bundle) {
-            $bundleTopics = $bundle['root'] . '/../config/topics.yml';
-            if (!file_exists($bundleTopics)) {
-                continue;
+            foreach (glob($bundle['root'] . '/../config/topics/*.yml') as $filename) {
+                $this->topicsInclude($filename, $config);
             }
-            $this->topicsInclude($bundleTopics, $config);
         }
     }
 

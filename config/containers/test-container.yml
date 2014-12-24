@@ -1,0 +1,8 @@
+imports:
+    - package-container.yml
+    - ../../vendpr/opine/container/config/containers/package-container.yml
+    - ../../vendpr/opine/bundle/config/containers/package-container.yml
+
+services:
+    pubsubTest:
+        class: Test\SomeClass
