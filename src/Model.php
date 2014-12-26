@@ -102,11 +102,7 @@ class Model
         if (!file_exists($topicConfig)) {
             return;
         }
-        if (function_exists('yaml_parse_file')) {
-            $config = yaml_parse_file($topicConfig);
-        } else {
-            $config = Yaml::parse(file_get_contents($topicConfig));
-        }
+        $config = Yaml::parse(file_get_contents($topicConfig));
         if ($config == false) {
             throw new Exception('Can not parse YAML file: '.$topicConfig);
         }
