@@ -1,7 +1,8 @@
 imports:
     - package-container.yml
-    - ../../vendpr/opine/container/config/containers/package-container.yml
-    - ../../vendpr/opine/bundle/config/containers/package-container.yml
+    - ../../vendor/opine/container/config/containers/package-container.yml
+    - ../../vendor/opine/bundle/config/containers/package-container.yml
+    - ../../vendor/opine/route/config/containers/package-container.yml
 
 services:
     pubsubTest:

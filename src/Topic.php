@@ -27,18 +27,18 @@ namespace Opine\PubSub;
 use ArrayObject;
 use Exception;
 use Opine\Interfaces\Topic as TopicInterface;
-use Opine\Interfaces\Container as ContainerInterface;
+use Opine\Interfaces\Route as RouteInterface;
 
 class Topic implements TopicInterface
 {
     private $topics = [];
-    private $container;
+    private $route;
     private $model;
 
-    public function __construct(ContainerInterface $container)
+    public function __construct(RouteInterface $route, $model)
     {
-        $this->container = $container;
-        $this->model = $container->get('pubSubModel');
+        $this->route = $route;
+        $this->model = $model;
     }
 
     public function cacheSet($cache)
@@ -88,10 +88,7 @@ class Topic implements TopicInterface
             if (substr_count($subscriber, '@') != 1) {
                 continue;
             }
-            $service = explode('@', $subscriber)[0];
-            $method = explode('@', $subscriber)[1];
-            $service = $this->container->get($service);
-            $response = $service->$method($context);
+            $response = $this->route->serviceMethod($subscriber, $context);
             if ($response === false) {
                 break;
             }
