@@ -1,11 +1,11 @@
 services:
     pubSubModel:
-        class:     Opine\PubSub\Model
+        class: Opine\PubSub\Model
         arguments:
-            - '%root%'
-            - '@bundleModel'
+            - %root%
+            - "@bundleModel"
     topic:
-        class:     Opine\PubSub\Topic
+        class: Opine\PubSub\Topic
         arguments:
-            - '@route'
-            - '@pubSubModel'
+            - "@route"
+            - "@pubSubModel"
