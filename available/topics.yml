@@ -1,9 +1,1 @@
 topics:
-    CollectionTags:
-        - collectionController@tagsCollection
-    BlurbsByTag:
-        - blurbsController@cache
-    TweetsFetch:
-        - twitterController@fetch
-    CollectionStats:
-        - collectionController@stats
